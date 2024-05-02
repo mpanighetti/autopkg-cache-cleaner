@@ -8,7 +8,7 @@
 #          Author:  Mario Panighetti
 #         Created:  2017-09-13
 #   Last Modified:  2024-05-02
-#         Version:  1.3.2
+#         Version:  1.3.2.1
 #
 ###
 
@@ -31,7 +31,7 @@ defaultCutoff="30"
 
 
 
-########## functiong-ing ##########
+########## function-ing ##########
 
 
 
