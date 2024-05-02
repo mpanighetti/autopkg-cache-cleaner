@@ -8,7 +8,7 @@
 #          Author:  Mario Panighetti
 #         Created:  2017-09-13
 #   Last Modified:  2024-05-02
-#         Version:  1.3.1
+#         Version:  1.3.2
 #
 ###
 
@@ -28,6 +28,37 @@ autopkgCacheDir=$(/usr/bin/defaults read "$autopkgPrefs" CACHE_DIR 2> "/dev/null
 workingDir="/private/tmp/AutoPkg Cache Cleaner"
 scriptLog="${loggedInUserLibrary}/Logs/AutoPkg Cache Cleaner.log"
 defaultCutoff="30"
+
+
+
+########## functiong-ing ##########
+
+
+
+# Ends script.
+exit_script () {
+
+  # Reveal log file in Finder.
+  /usr/bin/open -R "$scriptLog"
+
+  echo "Script will end here."
+  exit 0
+
+}
+
+
+# For exiting with error.
+bail_out () {
+
+  # Display error message from validation step.
+  echo "${1}"
+
+  # Reveal log file in Finder.
+  /usr/bin/open -R "$scriptLog"
+
+  exit 1
+
+}
 
 
 
@@ -70,10 +101,9 @@ if [ -z "$autopkgCacheDir" ]; then
 fi
 
 
-# Exit if CACHE_DIR does not exist.
+# Exit with error if CACHE_DIR does not exist.
 if [ ! -d "$autopkgCacheDir" ]; then
-  echo "❌ ERROR: AutoPkg cache directory not found at ${autopkgCacheDir}, unable to proceed."
-  exit 1
+  bail_out "❌ ERROR: AutoPkg cache directory not found at ${autopkgCacheDir}, unable to proceed."
 else
   echo "AutoPkg cache directory found: ${autopkgCacheDir}"
 fi
@@ -120,7 +150,7 @@ find "$autopkgCacheDir" -maxdepth 2 -mtime +"$oldCutoff" -name "*.pkg" >> "$dele
 deleteTheseFiles=$(/bin/cat "$deleteTheseFilesPath")
 if [ -z "$deleteTheseFiles" ]; then
   echo "No files found greater than ${oldCutoff} days old, no action required."
-  exit 0
+  exit_script
 else
   echo "🧹 Removing files..."
   echo "$deleteTheseFiles" | while read -r deleteMe; do
@@ -153,9 +183,5 @@ fi
 echo "✅ All clean! Space saved: ${oldCacheSizeLCD}"
 
 
-# Reveal log file in Finder.
-/usr/bin/open -R "$scriptLog"
 
-
-
-exit 0
+exit_script
