@@ -7,8 +7,8 @@
 #                   https://github.com/mpanighetti/autopkg-cache-cleaner
 #          Author:  Mario Panighetti
 #         Created:  2017-09-13
-#   Last Modified:  2024-05-01
-#         Version:  1.3
+#   Last Modified:  2024-05-02
+#         Version:  1.3.1
 #
 ###
 
@@ -151,6 +151,10 @@ else
   oldCacheSizeLCD="${oldCacheSizeTotal} B"
 fi
 echo "✅ All clean! Space saved: ${oldCacheSizeLCD}"
+
+
+# Reveal log file in Finder.
+/usr/bin/open -R "$scriptLog"
 
 
 
