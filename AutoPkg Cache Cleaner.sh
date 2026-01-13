@@ -3,12 +3,23 @@
 ###
 #
 #            Name:  AutoPkg Cache Cleaner.sh
-#     Description:  For each AutoPkg recipe cache, this script searches for and deletes all downloaded resources and compiled packages with creation dates older than the specified number of days.
-#                   https://github.com/mpanighetti/autopkg-cache-cleaner
+#     Description:  This script searches for and deletes all downloaded resources and compiled packages in an AutoPkg recipe cache with creation dates older than the specified number of days. The script expects to run in user context (the same user account running AutoPkg) and does not require `sudo` for a typical AutoPkg install.
+#                   https://github.com/wavebirddash/autopkg-cache-cleaner
+#
+#                   MIT License
+#
+#                   Copyright © 2017 Mario Panighetti
+#
+#                   Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+#
+#                   The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+#
+#                   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+#
 #          Author:  Mario Panighetti
 #         Created:  2017-09-13
-#   Last Modified:  2024-05-02
-#         Version:  1.3.2.1
+#   Last Modified:  2026-01-12
+#         Version:  1.3.3
 #
 ###
 
@@ -18,7 +29,6 @@
 
 
 
-# Leave these values as-is.
 scriptName=$(basename "$0")
 loggedInUser=$(/usr/bin/stat -f%Su "/dev/console")
 loggedInUserHome=$(/usr/bin/dscl . -read "/Users/${loggedInUser}" NFSHomeDirectory | /usr/bin/awk '{print $NF}')
@@ -35,7 +45,7 @@ defaultCutoff="30"
 
 
 
-# Ends script.
+# Ends script successfully and displays log file.
 exit_script () {
 
   # Reveal log file in Finder.
